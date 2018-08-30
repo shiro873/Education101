@@ -10,7 +10,7 @@ public class FragmentTransaction {
         this.activity = activity;
     }
 
-    protected void setFragment(Fragment fragment, int id) {
+    public void setFragment(Fragment fragment, int id) {
         FragmentManager fragmentManager = activity.getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(id, fragment);

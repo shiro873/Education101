@@ -2,14 +2,13 @@ package projects.shiro.education101.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
-import projects.shiro.education101.fragments.Home.HomeFragment;
 import projects.shiro.education101.fragments.STT.STTFragment;
 import projects.shiro.education101.fragments.TTS.TTSFragment;
 import projects.shiro.education101.fragments.Words.WordsFragment;
 
-public class PagerAdapter extends FragmentPagerAdapter {
+public class PagerAdapter extends FragmentStatePagerAdapter {
     int numOfFrags;
 
     public PagerAdapter(FragmentManager fm, int numOfFrags) {
@@ -21,15 +20,13 @@ public class PagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return new HomeFragment();
+                return new TTSFragment();
             case 1:
                 return new STTFragment();
             case 2:
-                return new TTSFragment();
-            case 4:
                 return new WordsFragment();
             default:
-                return null;
+                return new TTSFragment();
         }
     }
 
