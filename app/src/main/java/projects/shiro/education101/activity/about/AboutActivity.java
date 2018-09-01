@@ -1,11 +1,9 @@
-package projects.shiro.education101.activity.Home;
+package projects.shiro.education101.activity.about;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,33 +14,28 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.xgc1986.parallaxPagerTransformer.ParallaxPagerTransformer;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import projects.shiro.education101.R;
+import projects.shiro.education101.activity.Home.MasterActivity;
 import projects.shiro.education101.activity.Settings.SettingsActivity;
-import projects.shiro.education101.activity.about.AboutActivity;
-import projects.shiro.education101.adapter.PagerAdapter;
-import projects.shiro.education101.fragments.TTS.TTSFragment;
-import projects.shiro.education101.utils.FragmentTransaction;
 
-public class MasterActivity extends AppCompatActivity
+public class AboutActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
-    FragmentStatePagerAdapter mAdapter;
-    PagerAdapter adapter;
-    @BindView(R.id.viewpager)
-    ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_master);
+        setContentView(R.layout.activity_about);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setTitle("");
-        ButterKnife.bind(this);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -52,11 +45,6 @@ public class MasterActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-
-        adapter = new PagerAdapter(getSupportFragmentManager(), 3);
-        viewPager.setPageTransformer(false, new ParallaxPagerTransformer(R.id.viewpager));
-        viewPager.setAdapter(adapter);
     }
 
     @Override
@@ -65,7 +53,6 @@ public class MasterActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
             super.onBackPressed();
         }
     }
@@ -73,7 +60,7 @@ public class MasterActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.master, menu);
+        getMenuInflater().inflate(R.menu.about, menu);
         return true;
     }
 
@@ -86,8 +73,6 @@ public class MasterActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Intent intent = new Intent(MasterActivity.this, SettingsActivity.class);
-            startActivity(intent);
             return true;
         }
 
@@ -102,12 +87,12 @@ public class MasterActivity extends AppCompatActivity
 
         if (id == R.id.nav_manage) {
             // Handle the camera action
-            Intent intent = new Intent(MasterActivity.this, SettingsActivity.class);
+            Intent intent = new Intent(AboutActivity.this, SettingsActivity.class);
             startActivity(intent);
         }
         else if (id == R.id.nav_about) {
             // Handle the camera action
-            Intent intent = new Intent(MasterActivity.this, AboutActivity.class);
+            Intent intent = new Intent(AboutActivity.this, AboutActivity.class);
             startActivity(intent);
         }
 

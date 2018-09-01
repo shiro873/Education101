@@ -181,7 +181,8 @@
     <string name="tap_on_mic">Tap on mic to speak</string>
     <string name="tap_to_listen">Tap on speaker to listen</string>
     <string name="title_activity_master">MasterActivity</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_title">GG Studio</string>
+    <string name="nav_header_subtitle">gg.com.nothing</string>
     <string name="nav_header_desc">Navigation header</string>
+    <string name="title_activity_about">AboutActivity</string>
 </resources>

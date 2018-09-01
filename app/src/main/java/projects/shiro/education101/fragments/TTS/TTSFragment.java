@@ -4,21 +4,41 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import projects.shiro.education101.BuildConfig;
 import projects.shiro.education101.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link TTSFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link TTSFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class TTSFragment extends Fragment {
+
+public class TTSFragment extends Fragment implements TTSView{
+
+    TTSPresenter presenter;
+
+    @BindView(R.id.txtSpeechInput)
+    TextView txtSpeechInput;
+    @BindView(R.id.btnSpeak)
+    ImageButton btnSpeak;
+    @BindView(R.id.btnAddText)
+    ImageButton btnAddtext;
+
+    @OnClick(R.id.btnAddText)
+    void AddText(){
+        selectFileView();
+    }
+
+    @OnClick(R.id.btnSpeak)
+    void SpeakText(){
+        speak();
+    }
+
 
     public TTSFragment() {
         // Required empty public constructor
@@ -40,6 +60,39 @@ public class TTSFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tt, container, false);
+        View view = inflater.inflate(R.layout.fragment_tt, container, false);
+        ButterKnife.bind(this, view);
+        presenter = new TTSPresenter(this.getContext(), getActivity());
+        if(BuildConfig.FLAVOR.equals("Paid")){
+            paidView();
+        }else {
+            freeView();
+        }
+        return view;
+    }
+
+    @Override
+    public void paidView() {
+        btnAddtext.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void freeView() {
+        btnAddtext.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void selectFileView() {
+        presenter.selectFile();
+    }
+
+    @Override
+    public void speak() {
+        presenter.speak(txtSpeechInput.getText().toString());
+    }
+
+    @Override
+    public void generateAudio() {
+        presenter.saveAsAudio();
     }
 }

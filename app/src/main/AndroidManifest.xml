@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="projects.shiro.education101">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -24,6 +26,10 @@
         <activity
             android:name=".activity.Home.MasterActivity"
             android:label="@string/title_activity_master"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.about.AboutActivity"
+            android:label="@string/title_activity_about"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

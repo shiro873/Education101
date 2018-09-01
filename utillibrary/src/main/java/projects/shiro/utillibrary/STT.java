@@ -1,5 +1,6 @@
 package projects.shiro.utillibrary;
 
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.speech.RecognizerIntent;
@@ -13,10 +14,10 @@ import static android.app.Activity.RESULT_OK;
 
 public class STT {
     private final int REQ_CODE_SPEECH_INPUT = 100;
-    private AppCompatActivity activity;
+    private Activity activity;
 
 
-    public STT(AppCompatActivity activity){
+    public STT(Activity activity){
         this.activity = activity;
     }
 

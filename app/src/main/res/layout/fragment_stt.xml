@@ -12,9 +12,9 @@
         android:background="@drawable/grade_grey"
         android:orientation="vertical" >
 
-        <EditText
+        <TextView
             android:id="@+id/txtTextInput"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
@@ -22,6 +22,18 @@
             android:textColor="@color/white"
             android:textSize="26dp"
             android:textStyle="normal" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtTextInput"
+            android:layout_centerHorizontal="true">
+            <ImageButton
+                android:id="@+id/btnAddMusic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:src="@drawable/icon_music_white" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
