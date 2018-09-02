@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -16,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.andremion.floatingnavigationview.FloatingNavigationView;
 import com.xgc1986.parallaxPagerTransformer.ParallaxPagerTransformer;
 
 import butterknife.BindView;
@@ -34,6 +36,8 @@ public class MasterActivity extends AppCompatActivity
     PagerAdapter adapter;
     @BindView(R.id.viewpager)
     ViewPager viewPager;
+    @BindView(R.id.floating_navigation_view)
+    FloatingNavigationView floatingNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,17 +45,34 @@ public class MasterActivity extends AppCompatActivity
         setContentView(R.layout.activity_master);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setVisibility(View.INVISIBLE);
         setTitle("");
         ButterKnife.bind(this);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        //NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        //navigationView.setNavigationItemSelectedListener(this);
+
+        floatingNavigationView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                floatingNavigationView.open();
+            }
+        });
+        floatingNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem item) {
+                Snackbar.make((View) floatingNavigationView.getParent(), item.getTitle() + " Selected!", Snackbar.LENGTH_SHORT).show();
+                floatingNavigationView.close();
+                return true;
+            }
+        });
 
 
         adapter = new PagerAdapter(getSupportFragmentManager(), 3);

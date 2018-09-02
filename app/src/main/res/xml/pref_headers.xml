@@ -4,17 +4,17 @@
 
     <header
         android:fragment="projects.shiro.education101.activity.Settings.SettingsActivity$GeneralPreferenceFragment"
-        android:icon="@drawable/ic_info_black_24dp"
         android:title="@string/pref_header_general" />
 
     <header
         android:fragment="projects.shiro.education101.activity.Settings.SettingsActivity$NotificationPreferenceFragment"
-        android:icon="@drawable/ic_notifications_black_24dp"
         android:title="@string/pref_header_notifications" />
 
     <header
         android:fragment="projects.shiro.education101.activity.Settings.SettingsActivity$DataSyncPreferenceFragment"
-        android:icon="@drawable/ic_sync_black_24dp"
         android:title="@string/pref_header_data_sync" />
 
+    <header
+        android:fragment="projects.shiro.education101.activity.Settings.SettingsActivity$LanguagePreferenceFragment"
+        android:title="@string/pref_header_language" />
 </preference-headers>

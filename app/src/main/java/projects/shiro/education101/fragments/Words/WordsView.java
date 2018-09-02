@@ -1,4 +1,8 @@
 package projects.shiro.education101.fragments.Words;
 
-public class WordsView {
+public interface WordsView {
+    void paidView();
+    void freeview();
+    void showTodayssWord();
+    void showArchive();
 }

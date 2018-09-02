@@ -14,7 +14,7 @@ public class STTPresenter implements STTModel {
     public STTPresenter(Context context, Activity activity){
         this.context = context;
         this.activity = activity;
-        stt = new STT(activity);
+        stt = STT.newInstance(activity);
     }
 
 

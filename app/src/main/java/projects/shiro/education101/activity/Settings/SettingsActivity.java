@@ -3,6 +3,7 @@ package projects.shiro.education101.activity.Settings;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -16,12 +17,17 @@ import android.app.ActionBar;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import projects.shiro.education101.R;
+import projects.shiro.education101.activity.Home.MasterActivity;
+import projects.shiro.utillibrary.TTS;
 
 
 public class SettingsActivity extends PreferenceActivity {
@@ -142,7 +148,8 @@ public class SettingsActivity extends PreferenceActivity {
         return PreferenceFragment.class.getName().equals(fragmentName)
                 || GeneralPreferenceFragment.class.getName().equals(fragmentName)
                 || DataSyncPreferenceFragment.class.getName().equals(fragmentName)
-                || NotificationPreferenceFragment.class.getName().equals(fragmentName);
+                || NotificationPreferenceFragment.class.getName().equals(fragmentName)
+                || LanguagePreferenceFragment.class.getName().equals(fragmentName);
     }
 
     /**
@@ -173,6 +180,40 @@ public class SettingsActivity extends PreferenceActivity {
                 return true;
             }
             return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    public static class LanguagePreferenceFragment extends PreferenceFragment{
+        TTS tts;
+        @Override
+        public void onCreate(@Nullable Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            addPreferencesFromResource(R.xml.pref_language);
+            setHasOptionsMenu(true);
+            bindPreferenceSummaryToValue(findPreference("language"));
+            tts = TTS.newInstance(new MasterActivity());
+            tts.setLocaleFromSettings(Locale.US);
+        }
+
+        @Override
+        public void onConfigurationChanged(Configuration newConfig) {
+            super.onConfigurationChanged(newConfig);
+            SharedPreferences Preference = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
+            String languageName = Preference.getString("language","-1");
+            switch (languageName){
+                case "English(US)":
+                    tts.setLocaleFromSettings(Locale.US);
+                    return;
+
+                case "English(UK)":
+                    tts.setLocaleFromSettings(Locale.UK);
+                    return;
+
+                case "Bangla(Bangladesh)":
+                    tts.setLocaleFromSettings(new Locale( "bn_BD "));
+                    return;
+            }
         }
     }
 

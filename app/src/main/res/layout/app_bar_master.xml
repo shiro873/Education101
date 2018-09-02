@@ -9,16 +9,27 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/toolbar_bg"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
+
+    <com.andremion.floatingnavigationview.FloatingNavigationView
+        android:id="@+id/floating_navigation_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin"
+        app:drawMenuBelowFab="true"
+        app:headerLayout="@layout/nav_header_master"
+        app:layout_anchor="@id/toolbar"
+        app:layout_anchorGravity="bottom|end"
+        app:menu="@menu/activity_master_drawer" />
 
     <include layout="@layout/content_master" />
 

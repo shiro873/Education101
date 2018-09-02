@@ -31,7 +31,7 @@ public class TTSPresenter implements TTSModel {
     public TTSPresenter(Context context, Activity activity){
         this.context = context;
         this.activity = activity;
-        tts = new TTS(activity);
+        tts = TTS.newInstance(activity);
     }
 
     public void speak(String msg){

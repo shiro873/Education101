@@ -14,6 +14,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.andremion.floatingnavigationview.FloatingNavigationView;
+
+import butterknife.BindView;
 import projects.shiro.education101.R;
 import projects.shiro.education101.activity.Home.MasterActivity;
 import projects.shiro.education101.activity.Settings.SettingsActivity;
@@ -21,21 +24,16 @@ import projects.shiro.education101.activity.Settings.SettingsActivity;
 public class AboutActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    @BindView(R.id.floating_navigation_view)
+    FloatingNavigationView floatingNavigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        toolbar.setVisibility(View.INVISIBLE);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -43,8 +41,21 @@ public class AboutActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        floatingNavigationView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                floatingNavigationView.open();
+            }
+        });
+        floatingNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem item) {
+                Snackbar.make((View) floatingNavigationView.getParent(), item.getTitle() + " Selected!", Snackbar.LENGTH_SHORT).show();
+                floatingNavigationView.close();
+                return true;
+            }
+        });
+
     }
 
     @Override

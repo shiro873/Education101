@@ -15,10 +15,18 @@ import static android.app.Activity.RESULT_OK;
 public class STT {
     private final int REQ_CODE_SPEECH_INPUT = 100;
     private Activity activity;
+    private static STT INSTANCE = null;
 
 
-    public STT(Activity activity){
+    private STT(Activity activity){
         this.activity = activity;
+    }
+
+    public static synchronized STT newInstance(Activity activity){
+        if(INSTANCE == null){
+            INSTANCE = new STT(activity);
+        }
+        return INSTANCE;
     }
 
     public void promptSpeechInput() {

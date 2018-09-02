@@ -1,7 +1,10 @@
 package projects.shiro.utillibrary;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Environment;
+import android.preference.PreferenceActivity;
+import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
 import android.support.v4.os.ConfigurationCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -14,8 +17,10 @@ import java.util.Locale;
 public class TTS {
     TextToSpeech tts;
     Activity activity;
+    PreferenceActivity settings;
+    private static TTS INSTANCE = null;
 
-    public TTS(Activity activity){
+    private TTS(Activity activity){
         this.activity = activity;
         final Locale locale = ConfigurationCompat.getLocales(activity.getResources().getConfiguration()).get(0);
         tts = new TextToSpeech(activity, new TextToSpeech.OnInitListener() {
@@ -26,12 +31,21 @@ public class TTS {
         });
     }
 
-    public void Speak(String msg){
-        tts.speak(msg, TextToSpeech.QUEUE_FLUSH, null, "TTS_ID");
+    public static synchronized TTS newInstance(Activity activity){
+        if(INSTANCE == null){
+            INSTANCE = new TTS(activity);
+        }
+        return INSTANCE;
+    }
+    /*settings*/
+    public void setLocaleFromSettings(Locale locale){
+        tts.setLanguage(locale);
     }
 
-    public void setLanguage(Locale locale){
-        tts.setLanguage(locale);
+
+    /*end setting*/
+    public void Speak(String msg){
+        tts.speak(msg, TextToSpeech.QUEUE_FLUSH, null, "TTS_ID");
     }
 
     public void SaveAsAudio(String msg){
