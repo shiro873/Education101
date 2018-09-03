@@ -201,4 +201,5 @@
 
     <string name="title_words_frag">Word of the day</string>
     <string name="title_words_button0">Archive</string>
+    <string name="title_notification">New Word!</string>
 </resources>

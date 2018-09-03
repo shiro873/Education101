@@ -8,5 +8,4 @@ public interface WordsModel {
     ObscureWord getTodaysWord();
     void saveWords();
     List<ObscureWord> getWords();
-
 }
