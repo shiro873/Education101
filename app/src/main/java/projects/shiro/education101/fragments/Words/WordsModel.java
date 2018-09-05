@@ -6,6 +6,7 @@ import projects.shiro.education101.models.ObscureWord;
 
 public interface WordsModel {
     ObscureWord getTodaysWord();
-    void saveWords();
+    void saveWords(ObscureWord word);
     List<ObscureWord> getWords();
+    ObscureWord getWord();
 }

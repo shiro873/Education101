@@ -4,31 +4,40 @@ import android.arch.persistence.room.Entity;
 
 @Entity
 public class ObscureWord {
-    private int id;
-    private String word;
-    private String meaning;
+    private int Id;
+    private String Word;
+    private String WordDefinition;
+    private boolean IsUsed;
 
     public int getId() {
-        return id;
+        return Id;
     }
 
     public void setId(int id) {
-        this.id = id;
+        Id = id;
     }
 
     public String getWord() {
-        return word;
+        return Word;
     }
 
     public void setWord(String word) {
-        this.word = word;
+        Word = word;
     }
 
-    public String getMeaning() {
-        return meaning;
+    public String getWordDefinition() {
+        return WordDefinition;
     }
 
-    public void setMeaning(String meaning) {
-        this.meaning = meaning;
+    public void setWordDefinition(String wordDefinition) {
+        WordDefinition = wordDefinition;
+    }
+
+    public boolean isUsed() {
+        return IsUsed;
+    }
+
+    public void setUsed(boolean used) {
+        IsUsed = used;
     }
 }

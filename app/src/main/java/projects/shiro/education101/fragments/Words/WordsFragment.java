@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.HashMap;
@@ -16,18 +17,24 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import projects.shiro.education101.BuildConfig;
 import projects.shiro.education101.R;
 import projects.shiro.education101.adapter.ExpandableAdapter;
 import projects.shiro.education101.models.ObscureWord;
 
 public class WordsFragment extends Fragment implements WordsView{
 
+    private WordsPresenter presenter;
     ExpandableAdapter expandableAdapter;
     List<String> listHeader;
     HashMap<String, List<ObscureWord>> listDataChild;
 
     @BindView(R.id.expandable_view)
     ExpandableListView expandableListView;
+    @BindView(R.id.obscure_word)
+    TextView obscureWord;
+    @BindView(R.id.words_meaning)
+    TextView obscureWordMeaning;
 
 
     public WordsFragment() {
@@ -51,24 +58,32 @@ public class WordsFragment extends Fragment implements WordsView{
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_words, container, false);
         ButterKnife.bind(this, view);
-        initListView();
+        presenter= new WordsPresenter(getContext());
+        if(BuildConfig.FLAVOR.equals("Free")){
+            freeView();
+        }else {
+            initListView();
+            paidView();
+        }
 
         return view;
     }
 
     @Override
     public void paidView() {
-
+        expandableListView.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void freeView() {
-
+        expandableListView.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void showTodaysWord() {
-
+        ObscureWord word = presenter.getTodaysWord();
+        obscureWord.setText(word.getWord());
+        obscureWordMeaning.setText(word.getWordDefinition());
     }
 
     @Override
