@@ -22,7 +22,7 @@ public class WordsService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        presenter = new WordsPresenter(getApplicationContext());
+        presenter = new WordsPresenter(getApplicationContext(), getApplication());
         
     }
 }

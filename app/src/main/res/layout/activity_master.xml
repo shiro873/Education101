@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="@drawable/grade_grey"
+    android:background="@drawable/deep_blue_grade"
     tools:openDrawer="start">
 
     <include

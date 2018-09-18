@@ -1,12 +1,16 @@
 package projects.shiro.education101.fragments.Words;
 
+import android.arch.lifecycle.LiveData;
+
 import java.util.List;
 
+import io.reactivex.Maybe;
+import io.reactivex.Single;
 import projects.shiro.education101.models.ObscureWord;
 
 public interface WordsModel {
-    ObscureWord getTodaysWord();
+    LiveData<ObscureWord> getTodaysWord();
     void saveWords(ObscureWord word);
-    List<ObscureWord> getWords();
-    ObscureWord getWord();
+    LiveData<List<ObscureWord>> getWords();
+    LiveData<ObscureWord> getWord();
 }

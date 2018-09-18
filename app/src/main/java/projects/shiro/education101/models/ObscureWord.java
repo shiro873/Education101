@@ -1,13 +1,15 @@
 package projects.shiro.education101.models;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 
 @Entity
 public class ObscureWord {
+    @PrimaryKey
     private int Id;
     private String Word;
     private String WordDefinition;
-    private boolean IsUsed;
+    private boolean Used;
 
     public int getId() {
         return Id;
@@ -34,10 +36,10 @@ public class ObscureWord {
     }
 
     public boolean isUsed() {
-        return IsUsed;
+        return Used;
     }
 
     public void setUsed(boolean used) {
-        IsUsed = used;
+        Used = used;
     }
 }

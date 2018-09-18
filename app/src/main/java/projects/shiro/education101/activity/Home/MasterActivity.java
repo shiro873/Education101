@@ -1,9 +1,12 @@
 package projects.shiro.education101.activity.Home;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -19,6 +22,9 @@ import android.view.MenuItem;
 
 import com.andremion.floatingnavigationview.FloatingNavigationView;
 import com.xgc1986.parallaxPagerTransformer.ParallaxPagerTransformer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,6 +45,17 @@ public class MasterActivity extends AppCompatActivity
     @BindView(R.id.floating_navigation_view)
     FloatingNavigationView floatingNavigationView;
 
+    public static final int MULTIPLE_PERMISSIONS = 10; // code you want.
+
+    String[] permissions= new String[]{
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.WAKE_LOCK,
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.INTERNET,
+            Manifest.permission.ACCESS_NETWORK_STATE
+    };
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +65,7 @@ public class MasterActivity extends AppCompatActivity
         toolbar.setVisibility(View.INVISIBLE);
         setTitle("");
         ButterKnife.bind(this);
+        checkPermissions();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -68,8 +86,18 @@ public class MasterActivity extends AppCompatActivity
         floatingNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
-                Snackbar.make((View) floatingNavigationView.getParent(), item.getTitle() + " Selected!", Snackbar.LENGTH_SHORT).show();
-                floatingNavigationView.close();
+                int id = item.getItemId();
+
+                if (id == R.id.nav_manage) {
+                    // Handle the camera action
+                    Intent intent = new Intent(MasterActivity.this, SettingsActivity.class);
+                    startActivity(intent);
+                }
+                else if (id == R.id.nav_about) {
+                    // Handle the camera action
+                    Intent intent = new Intent(MasterActivity.this, AboutActivity.class);
+                    startActivity(intent);
+                }
                 return true;
             }
         });
@@ -86,8 +114,8 @@ public class MasterActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
-            super.onBackPressed();
+            //viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
+            //super.onBackPressed();
         }
     }
 
@@ -134,6 +162,42 @@ public class MasterActivity extends AppCompatActivity
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MULTIPLE_PERMISSIONS:{
+                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    // permissions granted.
+                } else {
+                    String perm = "";
+                    for (String per : permissions) {
+                        perm += "\n" + per;
+                    }
+                    // permissions list of don't granted permission
+                }
+                return;
+            }
+        }
+    }
+
+
+    //permission code
+    private  boolean checkPermissions() {
+        int result;
+        List<String> listPermissionsNeeded = new ArrayList<>();
+        for (String p:permissions) {
+            result = ContextCompat.checkSelfPermission(this,p);
+            if (result != PackageManager.PERMISSION_GRANTED) {
+                listPermissionsNeeded.add(p);
+            }
+        }
+        if (!listPermissionsNeeded.isEmpty()) {
+            ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]),MULTIPLE_PERMISSIONS );
+            return false;
+        }
         return true;
     }
 }

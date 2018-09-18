@@ -29,7 +29,7 @@ public class STTPresenter implements STTModel {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        stt.onActivityResult(requestCode, resultCode, data);
+    public String onActivityResult(int requestCode, int resultCode, Intent data) {
+         return stt.onActivityResult(requestCode, resultCode, data);
     }
 }

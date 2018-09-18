@@ -1,9 +1,20 @@
 package projects.shiro.education101.activity.about;
 
+import android.Manifest;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.speech.RecognitionListener;
+import android.speech.RecognizerIntent;
+import android.speech.SpeechRecognizer;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
+import android.view.MotionEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,10 +24,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.andremion.floatingnavigationview.FloatingNavigationView;
 
+import java.util.ArrayList;
+import java.util.Locale;
+
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import projects.shiro.education101.R;
 import projects.shiro.education101.activity.Home.MasterActivity;
 import projects.shiro.education101.activity.Settings.SettingsActivity;
@@ -27,6 +45,9 @@ public class AboutActivity extends AppCompatActivity
     @BindView(R.id.floating_navigation_view)
     FloatingNavigationView floatingNavigationView;
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +55,9 @@ public class AboutActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setVisibility(View.INVISIBLE);
+        ButterKnife.bind(this);
+
+        //checkPermission();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -50,13 +74,40 @@ public class AboutActivity extends AppCompatActivity
         floatingNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
-                Snackbar.make((View) floatingNavigationView.getParent(), item.getTitle() + " Selected!", Snackbar.LENGTH_SHORT).show();
-                floatingNavigationView.close();
+                int id = item.getItemId();
+
+                if (id == R.id.nav_manage) {
+                    // Handle the camera action
+                    Intent intent = new Intent(AboutActivity.this, SettingsActivity.class);
+                    startActivity(intent);
+                }
+                else if (id == R.id.nav_about) {
+                    // Handle the camera action
+                    Intent intent = new Intent(AboutActivity.this, AboutActivity.class);
+                    startActivity(intent);
+                }
                 return true;
             }
         });
 
+
+
     }
+
+    private void checkPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!(ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED)) {
+                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                        Uri.parse("package:" + getPackageName()));
+                startActivity(intent);
+                finish();
+            }
+        }
+    }
+
+
+
+
 
     @Override
     public void onBackPressed() {

@@ -63,7 +63,7 @@ public class TTSFragment extends Fragment implements TTSView{
         View view = inflater.inflate(R.layout.fragment_tt, container, false);
         ButterKnife.bind(this, view);
         presenter = new TTSPresenter(this.getContext(), getActivity());
-        if(BuildConfig.FLAVOR.equals("Paid")){
+        if(BuildConfig.FLAVOR.equals("paidVersion")){
             paidView();
         }else {
             freeView();

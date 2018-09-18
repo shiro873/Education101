@@ -1,5 +1,7 @@
 package projects.shiro.education101.fragments.Words;
 
+import android.app.Application;
+import android.arch.lifecycle.LiveData;
 import android.content.Context;
 import android.content.res.TypedArray;
 
@@ -11,57 +13,49 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.Maybe;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.Single;
 import projects.shiro.education101.activity.AppStart;
 import projects.shiro.education101.db.Edu101DB;
 import projects.shiro.education101.models.ObscureWord;
+import projects.shiro.education101.repository.ObscureRepository;
 
 public class WordsPresenter implements WordsModel {
     Context context;
-    Edu101DB db;
+    ObscureRepository repository;
     ObscureWord word;
     List<ObscureWord> words;
 
-    public WordsPresenter(Context context){
+    public WordsPresenter(Context context, Application application){
         this.context = context;
+        repository = new ObscureRepository(application);
     }
 
     @Override
-    public ObscureWord getTodaysWord() {
-        return getWord();
+    public LiveData<ObscureWord> getTodaysWord() {
+        LiveData<ObscureWord> wordMaybe = repository.getWordOfTheDay();
+        return wordMaybe;
+    }
+
+    public Single<ObscureWord> getWordOfTheDay(){
+        return repository.getWordSingle();
     }
 
     @Override
     public void saveWords(final ObscureWord word) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                db.wordsDAO().insert(word);
-            }
-        });
+
     }
 
     @Override
-    public List<ObscureWord> getWords() {
-        words = new ArrayList<>();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                words = db.wordsDAO().getAllWords();
-            }
-        });
-        return words;
+    public LiveData<List<ObscureWord>> getWords() {
+        return repository.getUsedWords();
     }
 
     @Override
-    public ObscureWord getWord() {
-        word = new ObscureWord();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                word = db.wordsDAO().getTodaysWord();
-            }
-        });
-        return word;
+    public LiveData<ObscureWord> getWord() {
+        LiveData<ObscureWord> wordMaybe = repository.getWordOfTheDay();
+        return wordMaybe;
     }
 
 
